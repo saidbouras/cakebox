@@ -1,3 +1,0 @@
-docker rm -f cakebox
-sudo rm -rf /etc/nginx/sites-enabled/cakebox /etc/nginx/sites-available/cakebox /var/www/cakebox
-docker build -t cakebox:latest -f Dockerfile .

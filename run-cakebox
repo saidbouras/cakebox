@@ -1,9 +1,0 @@
-docker run --net host --name cakebox -dt \
-    -e CAKEBOX_ROOT=/downloads \
-    -v $HOME/Downloads:/downloads \
-    -v /var/www/cakebox:/var/www/cakebox \
-    --volumes-from nginx \
-    -p 80:80 \
-    cakebox
-
-# -e SERVER_NAME=scybox.sbouras.com \
