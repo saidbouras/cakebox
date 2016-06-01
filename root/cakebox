@@ -1,0 +1,40 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name %SERVER_NAME%;
+
+    root /var/www/cakebox/public;
+
+    access_log /var/log/nginx/cakebox-access.log;
+    error_log /var/log/nginx/cakebox-error.log;
+
+    location / {
+        try_files $uri $uri/ @site;
+        auth_basic "Restricted";
+        auth_basic_user_file /var/www/cakebox/public/.htpasswd;
+    }
+
+    location /access/ {
+        alias /var/www/cakebox/;
+        allow all;
+        satisfy any;
+        add_header Content-Disposition "attachment";
+    }
+
+    location ~* \.(css|eot|ico|jpg|js|json|html|png|otf|svg|ttf|woff|woff2)$ {
+        access_log off;
+        expires +60d;
+    }
+
+    location ~ \.php$ {
+        return 404;
+    }
+
+    location @site {
+        fastcgi_pass 127.0.0.1:7777;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+        fastcgi_param APPLICATION_ENV debug;
+    }
+}
